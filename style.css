@@ -1,0 +1,38 @@
+body{
+    width: 50%;
+    margin: 0px auto;
+}
+section{
+    padding: 10px;
+    margin: 30px auto;
+    border: 1px solid #333;
+}
+button{
+    padding:2px 5px;
+    font-size: 14px;
+    margin:0px 1px;
+}
+#todo-header{
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    text-align: center;
+}
+
+#todo-header-button{
+    height:40px;
+    text-align: right;
+}
+#add-subject-button{
+    /* position: fixed; */
+    /* right: 30%; */
+    height: 100%;
+}
+#filter-subject-button{
+    height: 100%;
+}
+.subject-todo{
+    display: flex;
+    margin: 10px 0px;
+    justify-content: space-between;
+}
