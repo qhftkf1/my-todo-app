@@ -34,7 +34,7 @@ class Todo {
         return this.id;
     }
 }
-class SelectButotn{
+class SelectButton{
     constructor(content, event){
         this.text = content;
         this.node = document.createElement('button');

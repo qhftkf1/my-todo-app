@@ -63,18 +63,18 @@ function makeToDo(subject, subjectNode){
         subject.addTodo(newTodo);
         let newNode = document.createElement('div');
         let newInput = document.createElement('input');
-        let upButton = new SelectButotn('Up',  moveUp(subject, findIdx(subject, newTodo.getId())));
-        let downButton = new SelectButotn('Down',  moveDown(subject,findIdx(subject, newTodo.getId())));
-        let doneButton = new SelectButotn('Done',  completeTodo(newInput, newTodo));
-        let undoButton = new SelectButotn('Undo',  cancleTodo(newInput, newTodo));
-
+        let upButton = new SelectButton('Up',  moveUp(subject, findIdx(subject, newTodo.getId())));
+        let downButton = new SelectButton('Down',  moveDown(subject,findIdx(subject, newTodo.getId())));
+        let doneButton = new SelectButton('Done',  completeTodo(newInput, newTodo));
+        let undoButton = new SelectButton('Undo',  cancleTodo(newInput, newTodo));
+        let deleteButton = new SelectButton('Delete', deleteTodo(subject, findIdx(subject, newTodo.getId())));
         newNode.className='subject-todo'
         newNode.id = `subject-todo-${subject.id}-${newTodo.id}`;
         newInput = inputStyle(newInput);
         newInput.addEventListener('input', function(e){
             newTodo.content = e.target.value;
         })
-        newNode.append(newInput, upButton.getButtonNode(), downButton.getButtonNode(), doneButton.getButtonNode(), undoButton.getButtonNode());
+        newNode.append(newInput, upButton.getButtonNode(), downButton.getButtonNode(), doneButton.getButtonNode(), undoButton.getButtonNode(), deleteButton.getButtonNode());
         subjectNode.append(newNode);
     }
 }
@@ -90,19 +90,22 @@ function cancleTodo(node, todo){
         node.style.textDecoration ="none";
     }
 }
+function deleteTodo(subject, idx){
+    return function(){
+        console.log(idx);
+        console.log(subject.todos);
+        subject.todos.splice(idx, 1);
+        console.log(subject.todos);
+        drawTodolist(subject);
+    }
+ 
+}
 function findIdx(subject, idx){
     return subject.todos.findIndex((todo) => todo.id == idx) ;
 }
 function moveUp(subject, idx){
     return function(){
-        if(idx === 0){
-            if(subjectList.findIndex((sub)=>sub.id == subject.id) != 0){
-                let newValue = subject.todos.shift();
-                subjectList[subjectList.findIndex((sub)=>sub.id == subject.id)-1].todos.push(newValue);
-                drawTodolist(subject);
-                drawTodolist(subjectList[subjectList.findIndex((sub)=>sub.id == subject.id)-1]);
-            }
-        }else{
+        if(idx !== 0){
             switchValue(subject.todos, idx, idx-1);
             drawTodolist(subject);
         }
@@ -110,14 +113,7 @@ function moveUp(subject, idx){
 }
 function moveDown(subject, idx){
     return function(){
-        if(idx === subject.todos.length - 1){
-            if(subjectList.findIndex((sub)=>sub.id == subject.id) != subjectList.length - 1){
-                let newValue = subject.todos.pop();
-                subjectList[subjectList.findIndex((sub)=>sub.id == subject.id)+1].todos.push(newValue);
-                drawTodolist(subject);
-                drawTodolist(subjectList[subjectList.findIndex((sub)=>sub.id == subject.id)+1]);
-            }
-        }else{
+        if(idx !== subject.todos.length - 1){
             switchValue(subject.todos, idx, idx+1);
             drawTodolist(subject);
         }
@@ -141,10 +137,12 @@ function drawTodolist(subject){
 
     subject.todos.forEach((todo)=> {
         let newInput = document.createElement('input');
-        let upButton = new SelectButotn('Up',  moveUp(subject, findIdx(subject, todo.getId())));
-        let downButton = new SelectButotn('Down',  moveDown(subject,findIdx(subject, todo.getId())));
-        let doneButton = new SelectButotn('Done',  completeTodo(newInput, todo));
-        let undoButton = new SelectButotn('Undo',  cancleTodo(newInput, todo));
+        let upButton = new SelectButton('Up',  moveUp(subject, findIdx(subject, todo.getId())));
+        let downButton = new SelectButton('Down',  moveDown(subject,findIdx(subject, todo.getId())));
+        let doneButton = new SelectButton('Done',  completeTodo(newInput, todo));
+        let undoButton = new SelectButton('Undo',  cancleTodo(newInput, todo));
+        let deleteButton = new SelectButton('Delete', deleteTodo(subject, findIdx(subject, todo.getId())));
+
         let newNode = document.createElement('div');
         newNode.className='subject-todo'
         newNode.id = `subject-todo-${subject.id}-${todo.id}`;
@@ -156,7 +154,7 @@ function drawTodolist(subject){
             todo.content = e.target.value;
         })
         newInput.value = todo.content;
-        newNode.append(newInput, upButton.getButtonNode(), downButton.getButtonNode(), doneButton.getButtonNode(), undoButton.getButtonNode());
+        newNode.append(newInput, upButton.getButtonNode(), downButton.getButtonNode(), doneButton.getButtonNode(), undoButton.getButtonNode(), deleteButton.getButtonNode());
         todoList.append(newNode);
     })
 }
