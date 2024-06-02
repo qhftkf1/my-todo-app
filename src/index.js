@@ -1,10 +1,18 @@
-
+const todoList = [];
+const subjectList = [];
+const options = [
+    { text: 'all', value: 2 },
+    { text: 'done', value: 1 },
+    { text: 'undo', value: 0 }
+];
 const subjectListNode = document.createElement('main');
 document.body.append(subjectListNode);
 
 function makeFilter(subject) {
     let selectButton = document.createElement('select');
     selectButton.id = "todo-status-filter";
+    let optionList = [];
+
     options.forEach((option)=>{
         const opt = new Option(option.text, option.value);
         optionList.push(opt);

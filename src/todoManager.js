@@ -1,12 +1,5 @@
 let subject_id = 0;
-const todoList = [];
-const subjectList = [];
-const optionList = [];
-const options = [
-    { text: 'all', value: 2 },
-    { text: 'done', value: 1 },
-    { text: 'undo', value: 0 }
-];
+
 class Subject{
     constructor(title){
         this.id = subject_id++;
